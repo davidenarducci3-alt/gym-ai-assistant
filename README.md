@@ -46,7 +46,3 @@ Domande che devono essere rifiutate o dichiarate non disponibili: "Quali abbonam
 - Il database di esempio ha pochi record; lo schema non include scadenze degli abbonamenti né le tabelle dei corsi.
 - Evoluzioni possibili: aggiungere queste tabelle e i relativi strumenti, passare da SQLite a un database server, aggiungere autenticazione e ruoli.
 - Il pattern (LLM + strumenti autorizzati + dati aziendali) è trasferibile a sistemi gestionali come SAP, ad esempio usando servizi OData/API al posto delle query SQL e un LLM gestito tramite la piattaforma SAP. Questo progetto **non** include integrazioni SAP.
-
-## Descrizione per il CV
-
-> **Gym AI Assistant** — Chatbot in italiano su dati relazionali (Python, FastAPI, SQLite, Claude API con tool use). Query predefinite di sola lettura, risposte basate solo su dati verificati, protezione dei dati personali, test automatici e interfaccia web.
