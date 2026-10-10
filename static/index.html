@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gym AI Assistant</title>
+<style>
+:root{--bg:#fff;--fg:#1f2328;--card:#f4f5f7;--acc:#e8760c;--mut:#6b7280}
+@media(prefers-color-scheme:dark){:root{--bg:#16181c;--fg:#e6e8eb;--card:#23262b;--mut:#9aa1ab}}
+*{box-sizing:border-box}body{margin:0;font:16px system-ui,sans-serif;background:var(--bg);color:var(--fg);display:flex;flex-direction:column;height:100vh}
+header{padding:14px 20px;border-bottom:1px solid var(--card);font-weight:600}header span{color:var(--acc)}
+#log{flex:1;overflow:auto;padding:16px 20px;max-width:780px;width:100%;margin:0 auto}
+.m{margin:10px 0;padding:10px 14px;border-radius:12px;max-width:85%;white-space:pre-wrap;line-height:1.45}
+.u{background:var(--acc);color:#fff;margin-left:auto}.a{background:var(--card)}
+.t{font-size:12px;color:var(--mut);margin-top:6px}
+#chips{display:flex;flex-wrap:wrap;gap:8px;padding:0 20px 8px;max-width:780px;margin:0 auto;width:100%}
+#chips button{border:1px solid var(--acc);background:none;color:var(--acc);border-radius:16px;padding:5px 12px;cursor:pointer;font-size:13px}
+form{display:flex;gap:8px;padding:12px 20px;max-width:780px;margin:0 auto;width:100%}
+input{flex:1;padding:12px;border-radius:10px;border:1px solid var(--mut);background:var(--bg);color:var(--fg);font-size:16px}
+form button{background:var(--acc);color:#fff;border:0;border-radius:10px;padding:0 20px;cursor:pointer;font-size:16px}
+</style></head><body>
+<header>🏋️ Gym <span>AI</span> Assistant</header>
+<div id="log"><div class="m a">Ciao! Posso aiutarti con utenti, abbonamenti, shop, fisioterapia e personal trainer del centro. Cosa vuoi sapere?</div></div>
+<div id="chips"></div>
+<form id="f"><input id="q" placeholder="Scrivi una domanda..." autocomplete="off"><button>Invia</button></form>
+<script>
+const log=document.getElementById('log'),q=document.getElementById('q'),chips=document.getElementById('chips'),f=document.getElementById('f'),hist=[];
+["Quanti utenti sono registrati?","Qual è l'articolo più venduto?","Quanto ha incassato lo shop?","Quali pacchetti di fisioterapia ci sono?","Quali abbonamenti scadono questo mese?"]
+.forEach(t=>{const b=document.createElement('button');b.textContent=t;b.onclick=()=>send(t);chips.appendChild(b)});
+function add(txt,cls,tools){const d=document.createElement('div');d.className='m '+cls;d.textContent=txt;
+ if(tools&&tools.length){const s=document.createElement('div');s.className='t';s.textContent='Strumenti usati: '+tools.join(', ');d.appendChild(s)}
+ log.appendChild(d);log.scrollTop=log.scrollHeight;return d}
+async function send(text){add(text,'u');hist.push({role:'user',content:text});const w=add('…','a');
+ try{const r=await fetch('/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:hist})});
+  const j=await r.json();w.remove();add(j.reply,'a',j.tools_used);hist.push({role:'assistant',content:j.reply})}
+ catch(e){w.textContent='Al momento non riesco a consultare il database. Riprova tra poco.'}}
+f.onsubmit=e=>{e.preventDefault();const t=q.value.trim();if(t){q.value='';send(t)}};
+</script></body></html>
