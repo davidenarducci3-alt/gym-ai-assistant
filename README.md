@@ -1,5 +1,5 @@
 # Gym AI Assistant
-
+![Demo](screenshot.png)
 Chatbot in italiano che risponde a domande sulla gestione di un centro fitness interrogando un database relazionale tramite **query predefinite di sola lettura** (tool use di Claude). Nasce dal mio progetto di Basi di Dati (Università Parthenope, 2022).
 
 ## Architettura
